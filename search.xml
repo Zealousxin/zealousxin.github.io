@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[台式电脑装机简略步骤]]></title>
+    <url>%2F2019%2F02%2F16%2F%E5%8F%B0%E5%BC%8F%E7%94%B5%E8%84%91%E8%A3%85%E6%9C%BA%E7%AE%80%E7%95%A5%E6%AD%A5%E9%AA%A4%2F</url>
+    <content type="text"><![CDATA[1、检查所有配件是否齐全：CPU、主板（及挡板）、显卡、硬盘HDD（或者SSD）、电源、内存条（2条）、机箱、CPU散热风扇、硬盘连接线、电源转接线、绑带、各个部件固定的螺丝若干、散热硅脂； 2、打开机箱，安装主板注意同时装上挡板，固定好螺丝； 3、找到机箱对应安装电源的位置，装好好电源固定好螺丝，找到电源上面对应的供电线，CPU供电线、主板供电线、显硬盘供电线、显卡供电线（有的不需要显卡供电线）； 4、从机箱背部将各个供电线插入对应位置、将机箱的线插入主板对应位置，同时用绑带扎好； 5、打开CPU槽，安装好CPU，涂上硅脂，安装CPU散热风扇； 6、安装好磁盘（SSD或者HDD）上好机箱盖子； 7、接好机箱电源线，显示器电源线，显示器HDMI线（注意要接到显卡位置上，不要接到主板上） 8、打开开关，体验你的desktop！]]></content>
+      <categories>
+        <category>装机</category>
+      </categories>
+      <tags>
+        <tag>电脑装机</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[RDD（Resilient Distributed Dataset）生成的几种方式]]></title>
+    <url>%2F2019%2F02%2F16%2FRDD%EF%BC%88Resilient%20Distributed%20Dataset%EF%BC%89%E7%94%9F%E6%88%90%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F%2F</url>
+    <content type="text"><![CDATA[内存中对象集合 对输入并行运行，performExpensiveComputationval：result = params.map(performExpensiveComputation)； 确定并行数量，spark.default.parallelism ，默认为所有 executor 节点内核总数； 并行度作为第二参数传入：覆盖默认特定计算并行度：val params = sc.parallelize(1 to 10，12)； 外部存储器数据集（HDFS、HBASE、Avro) Hadoop 文件系统 InputFormate 格式：采用的 TextInputFormat ，默认分割数量为 HDFS 块数目，10 改变分区数量：val text: RDD[String] = sc.textFile(inputpath, 10)； 需要路径输入的文件格式：hadoopFile()；newAPIHadoopFile() 需键入InputFormate类型、路径、键类型、值类型、hadoop配置； 不需要路径输入的文件格式（HBASE 的 TableInputFormat）：hadoopRDD()；newAPIHadoopRDD()； 读小的文本文件格式，文本文件作为字符串返回，[路径 文件内容]：val files: RDD[String,String] = sc.wholeTextFile(inputpath)； 其他任意格式：如顺序文件：sc.sequenceFile[IntWritable, Text] (inputpath)、sc.sequenceFile[Int, String] (inputpath)，注意 Writable 类型； 对现有RDD转换 transformation：从现有RDD生成新RDD，惰性，返回类型为RDD PairRDDFunction action：出发对RDD计算，对结果执行造作，返回给用户或保存到外部存储，非惰性。有映射、分组、聚合、重新分区、采样、连接RDD、将RDD作为集合、将RDD物化为集合、对RDD进行统计计算、将RDD保存到尾部存储等各种操作。 聚合转换 reduceByKe：直接使用加法 “_+_” 来聚合 foldByKey：要提供零值（zero value） aggregateByKey：可以改变聚合结果的类型 持久化 缓存到 executor 内存中：为 RDD 打标记：xx.cache()，适用于数据的交互式探索查询（interactive exploration）、适用于迭代算法； 被缓存的 RDD 只能有同一应用的作业来读取； 应用终止时，缓存的所有 RDD 被销毁； 持久化级别 persist()指定 StorageLevel； MEMEORY_ONLY（默认）：以对象在内存中常规表示方法 MEMORY_ONLY_SER：将内存中分区数据序列化为字节数组落盘或者适合保存在内存中，更紧凑同时减少垃圾回收压力，但增会增加 CPU 消耗 spark.rdd.compass 设置为true，即 Kryo 序列化方式 spark.io.compression.codec 属性 MEMORY_AND_DISK：重新计算数据代价很高，则需要将 RDD 分区数据落盘 其他持久化级别：集群中多个节点复制分区，或者使用堆外分区 序列化（Java 序列化方式） 数据序列化 Java 序列化机制：调用的类实现 java.io.Serializable 或者 java.io.Externalizable Kryo 序列化机制：conf.set(“spark.serializer”, “org.apache.spark.serializer.KryoSerializer”) 自己写的类先在 Kryo 中注册可以提高序列化性能， Spark 已经注册了 Scala 类喝其他一些框架类（如：Avro Generic 类、Thrift 类） 注册方法： 函数序列化：Scala 中函数可以用标准的 Java 序列化机制，这也是 Spark 向远程 executor 节点发送函数的手段；即使本地运行也需要序列化函数]]></content>
+      <categories>
+        <category>Spark</category>
+      </categories>
+      <tags>
+        <tag>Spark</tag>
+        <tag>RDD</tag>
+        <tag>Hadoop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[树莓派3B软路由器实现免登录Dr.com客户端科学]]></title>
+    <url>%2F2019%2F02%2F16%2F%E6%A0%91%E8%8E%93%E6%B4%BE3B%E8%BD%AF%E8%B7%AF%E7%94%B1%E5%99%A8%E5%AE%9E%E7%8E%B0%E5%85%8D%E7%99%BB%E5%BD%95Dr.com%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%A7%91%E5%AD%A6%2F</url>
+    <content type="text"><![CDATA[1 软路由安装并接通网络 从 openwrt 开源论坛下载镜像文件 https://archive.openwrt.org/releases/17.01.4/targets/brcm2708/，其中 2710 对应为树莓派3b的固件； 写入 lede 固件到 sd 卡：将下载解压后的 *.img镜像通过 win32disk 软件写入 sd 卡 启动树莓派：用网线将树莓派与电脑连接，插入 sd 卡后开机等待 10s 左右后，在浏览器中输入 192.168.1.1 进入 web 界面，首次登陆的用户名为 root，密码为空。 也可以使用 ssh 软件登陆到 lede 路由的 shell 命令行，常用的 ssh 软件： windows ：Xshell、SecureCRT、PuTTY、MobaXterm MacOS： 汉化：先在命令行输入 opkg update，完成后打开路由器的 web 界面：192.168.10.1（在 /etc/config/network 设置的 ip） ； 设置 lede 路由的 wan 口（一般为设置 PPPoE 拨号或者 DHCP 客户端上网） 屏蔽 eth0 网卡：vi /etc/config/network，打开 WiFi 功能，取下网线连接 WiFi 并登入路由器 web 界面。 2 安装软件依赖包：安装 drcon 脚本的运行时所需 python 环境和依赖包 3 通过 Wireshark 抓包 Drcom 运行脚本：打开 Wireshark，点击以太网，再点击 Start 登录客户端，短暂时间后点击左上角红色按钮点击 File→Save As 保存为 dr.pcapng 当前目录需要的三个文件，双击 Double_Click_to_Run.cmd，在当前目录会生成config.txt 文件； 生成的 config.txt 内容如下，每台电脑抓包生成的文件都不一样 修改#config 和 %config_end 之间的配置信息为你刚刚生成的，同时在 username=’’、 password=’’ 的引号里面输入你的账号密码，并将改脚本另存为 drcom 文件。 通过 ssh 登陆路由器，分两步： 第一步，输入 vi /usr/bin/drcom，然后按“i”进入 vim 的编辑模式后，然后复制 刚才抓包的 drcom 脚本的所有内容，然后按“esc”退出 vim 编辑模式，按“:wq”保存并退出，在输入 chmod +x /usr/bin/drcom 赋予该脚本执行权限； 第二步：设置 drcom 脚本为开机自动运行，输入 vi /etc/rc.local，按“i”进入编辑模式后，在末尾添加 sleep 10 &amp;&amp; python /usr/bin/drcom，重启就可以免登录 Drcom 客户端上网了。 4 安装影梭包实现科学上网 下载链接：https://drive.google.com/file/d/178fmMEYhhrkDHxhf5K6duTOfxHT_1e1U/view?usp=sharing（需翻墙），或者从 GitHub 开源项目下载：https://github.com/ywb94/openwrt-ssr 解压所下载软件，登陆 win-scp 软件，将 shadowsocks-libev_2.5.6-1_arm_cortex-a53_neon-vfpv4.ipk、luci-app-shadowsocks_1.3.7-1_all.ipk 拖放进 tmp 目录下，点击左上角“安装 tmp 目录下的 ipk 软件包”，安装完成后刷新路由器登陆页面，可以看到如下界面，在服务器管理界面添加代理服务器并在基本设置界面启动代理，然后就可以访问Google了。 5 其他参考： 请查阅 GitHub 开源项目：https://github.com/drcoms/drcom-generic； 树莓派安装软路由：https://www.vediotalk.com/?p=956]]></content>
+      <categories>
+        <category>路由网络</category>
+      </categories>
+      <tags>
+        <tag>树莓派</tag>
+        <tag>软路由</tag>
+        <tag>Drcom</tag>
+        <tag>科学上网</tag>
+      </tags>
+  </entry>
+</search>
